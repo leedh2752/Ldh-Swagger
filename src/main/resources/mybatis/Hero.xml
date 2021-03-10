@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.n3ncloud.swagger.mapper.HeroMapper">
+	<select id="selectHero" resultType="hashMap">
+		SELECT * FROM hero
+	</select>
+	
+	<select id="selectHeroOne" resultType="com.n3ncloud.swagger.model.Hero">
+		select * from hero where id=#{id}
+	</select>
+	
+	<insert id="insertHero">
+		insert into hero values (#{id}, #{name})
+	</insert>
+	
+	<update id="updateHero">
+		update hero set id=#{id} , name=#{name} where id = #{id}
+	</update>
+	
+	<delete id="deleteHero">
+		delete from hero where id = #{id}
+	</delete>
+</mapper>
