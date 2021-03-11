@@ -2,13 +2,12 @@ package com.n3ncloud.swagger.mapper;
 
 import java.util.ArrayList;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import com.n3ncloud.swagger.model.Hero;
 
 @Repository
-@Mapper
+//@Mapper
 public interface HeroMapper {
 
 	public ArrayList<Hero> selectHero();
