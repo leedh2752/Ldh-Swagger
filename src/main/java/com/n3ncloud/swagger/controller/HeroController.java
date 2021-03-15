@@ -6,51 +6,47 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.n3ncloud.swagger.model.Hero;
 import com.n3ncloud.swagger.service.HeroService;
 
-import io.swagger.annotations.ApiOperation;
-
 @RestController
 public class HeroController {
 
 	@Autowired
 	private HeroService heroService;
-
-	@RequestMapping(value = "/api/heroes", method = RequestMethod.GET)
-	@ApiOperation(value = "히어로 리스트", notes = "히어로 리스트 기능")
+	
+	@GetMapping("/api/heroes")
 	public List<Hero> findAll() {
 		List<Hero> list = heroService.findAll();
 		return list;
 	}
-
-	@RequestMapping(value = "/api/hero", method = RequestMethod.GET)
+	
+	@GetMapping("/api/hero")
 	public ResponseEntity<Hero> selectOne(@RequestParam(name = "id") int id) {
 		Optional<Hero> hero = heroService.findById(id);
 		return new ResponseEntity<Hero>(hero.get(), HttpStatus.OK);
 	}
-
-	@RequestMapping(value = "/api/saveHero", method = RequestMethod.POST)
-	public ResponseEntity<Hero> saveHero(@RequestParam(name = "id") int id, @RequestParam(name = "name") String name) {
-		Hero hero1 = new Hero(id, name);
-		return new ResponseEntity<Hero>(heroService.save(hero1), HttpStatus.OK);
+	
+	@PostMapping("/api/saveHero")
+	public ResponseEntity<Hero> saveHero(@RequestBody Hero hero) {
+		return new ResponseEntity<Hero>(heroService.save(hero), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/api/removeHero", method = RequestMethod.DELETE)
-	@ApiOperation(value = "히어로 삭제", notes = "히어로 삭제 기능")
+	@DeleteMapping("/api/removeHero")
 	public void deleteHero(@RequestParam(name = "id") int id) {
 		heroService.deleteHero(id);
 	}
-
-	@RequestMapping(value = "/api/updateHero", method = RequestMethod.PUT)
-	public void updateHero(@RequestParam(name = "id") int id, @RequestParam(name = "name") String name) {
-		Hero hero = new Hero(id, name);
+	
+	@PutMapping("/api/updateHero")
+	public void updateHero(@RequestBody Hero hero) {		
 		heroService.updateHero(hero);
 	}
 	
